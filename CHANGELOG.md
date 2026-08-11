@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] (fork zenalex/excel)
+- Migrated to `archive: ^4.0.7` (was `^3.6.1`) and widened `xml` to
+  `>=5.0.0 <8.0.0` (was `<7.0.0`).
+  Reason: `archive ^3` conflicted with `image >= 4.4.0`, which requires
+  `archive ^4`, making the two unresolvable in the same app.
+- **Breaking:** `Excel.decodeBuffer` now takes an `archive` 4 `InputStream`.
+  In `archive` 4 `InputStream` is abstract — pass `InputMemoryStream(bytes)`
+  where `InputStream(bytes)` was used before.
+- Internal: `ArchiveFile.compress` (removed in `archive` 4) replaced with
+  `ArchiveFile.compression` / `CompressionType`.
+- Added `test/nsg_data_readpath_test.dart` covering the read path consumers
+  rely on (decode → sheets → `row()` → `CellValue` dispatch) plus a
+  save/re-read round trip, to guard the migration.
+
 ## [4.0.4]
 - Fixed Bug that Merge Cells were not parsed
 
